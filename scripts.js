@@ -9,7 +9,17 @@
 let cupcakesCollection = null;
 
 // use get to grab and display the cupcakes in their default order (this endpoint should return all of the cupcakes in  JSON in alphabetical order])
-// TO DO
+$.get("https://6f186305-ab26-4839-b806-380e3560e049.mock.pstmn.io/cupcakes.json", function(data){
+    //display cupcakes
+    displayCupcakes(data);
+    console.log(data);
+
+    cupcakesCollection = data;
+
+}, "json").fail(function(){
+    $("#cupcakes").empty();
+    $("#cupcakes").append("<div>There was an error while trying to contact the server</div>");
+});
 
 
 // display sorted in ascending order (this is calling a different endpoint than the original, but you can use the same one or the global variable, we're just writing this as another call to the server so we can see the syntax for this type of call)
@@ -50,25 +60,26 @@ $("#zed").click(function(){
 function displayCupcakes(data){
     
     // clear out any previous output from the container
-    // TO DO
+    $("#cupcakes").empty();
 
     // an empty string to build our output
     let string = "";
     
     // iterate through the returned cupcakes collection and display to the screen in semantic tags
-    // TO DO
+    for(let cupcake of data){
         string += 
         `<section>
-            <img src="${"add cupcake image"}" alt="${"add cupcake image alt text"}">
-            <h4>${"add cupcake name"}</h4>
+            <img src="${cupcake.image}" alt="${cupcake.alt}">
+            <h4>${cupcake.name}</h4>
             <b>Ingredients:</b>
-            <p class='ingredients'>${"add cupcake ingredients"}</p>
-            <b>${"add frosting type/name"} Frosting</b>
-            <p class='frosting'>${"add frosting ingredients"}</p>
+            <p class='ingredients'>${cupcake.ingredients}</p>
+            <b>${cupcake.frosting} Frosting</b>
+            <p class='frosting'>${cupcake.frostingIngredients}</p>
         </section>`;
-    
+    }   
         // add content to page
-    // TO DO
+        $("#cupcakes").html(string);
+
 }
 
 // helper function for displaying the filtered results - called on change of select drop down
